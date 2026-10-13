@@ -1,15 +1,49 @@
-# Reinforcement Learning
+# Grid-World Q-Learning
 
-In this problem, the goal is to train an AI that traverses an  n×n  grid to find paths that lead to the bottom right corner  (n−1,n−1) , from the top left corner, (0, 0). Assune  n=15 , and the terminal (end) states of the grid include the desired state  (14,14)  as well as areas with quicksand (death traps!). An agent gets a reward of 0 when it moves to a state that is not terminal, 1 when it moves to the desired state  (14,14) , and -1 when it moves into a quicksand. The game ends whenever the agent reaches a terminal state.
+## Overview
 
-To run any RL, we need to specify a Markov Decision Process which is a tuple comprising of  S,A,P,R,γ . In this problem:
+An original tabular Q-learning notebook for navigating a 15×15 grid with terminal goal and quicksand states.
 
-S  - denotes states, which are the grid coordinates, (x, y).
-A  - denotes agent actions: will consider the following 1-step movement actions  (0−right,1−down,2−left,3−up) 
-P  - denotes the transition matrix  P:S×A×S  which is the probability of going to state  s′ , from state  s , via action  a . We will consider a deterministic environment where  p(s,a,s′)=1  if it's possible to take action  a  from state  s  leading to state  s′ , otherwise its  0 
-R  - the reward for the goal state,  (x=gridsize−1,y=gridsize−1)=1 . The reward for quicksand locations = -1, the reward for any other state = 0.
-γ  - discount factor. Variable caters for preference of immediate rewards over long-term rewards. We will consider  γ=0.8 
+## Original Context
 
-Source: https://web.stanford.edu/class/psych209/Readings/SuttonBartoIPRLBook2ndEd.pdf
+Chen Jiang’s original reinforcement-learning exercise, retaining the tabular Bellman update, four movement actions, epsilon-greedy selection and grid reward experiment. The preserved pre-maintenance snapshot is `26df28c57a9e736dc03fe3b0b7535ed150fae5fc`;
+its most recent original commit is dated 2022-11-02. This date describes Git evidence,
+not necessarily the complete implementation period.
 
-Source: https://en.wikipedia.org/wiki/Q-learning.
+## What I Implemented
+
+Grid reward construction, legal state/action enumeration, greedy tie selection, epsilon-greedy exploration, per-episode Q-table learning, trajectory capture and visitation/reward plots.
+
+## Technical Approach
+
+The original dictionary of four-action rows is preserved. Legal action identifiers index the current state row; the Bellman target uses the next state and zero future value at terminal transitions.
+
+Episodes reset to the same start and terminate at goals/traps or an explicit cap. Seeded runs retain complete paths, allowing goals, failures and truncation to be counted separately.
+
+## Build / Run
+
+Use Python 3.12: `python3 -m venv .venv`, then `.venv/bin/python -m pip install -r requirements.txt`. Open the original notebook from this directory, or run `.venv/bin/python -B verify_notebook.py` for schema validation, a fresh kernel, HTML/notebook artifacts in `.build/`, and regression tests.
+
+## Testing
+
+- All 15 code cells executed from a clean Python 3.12 kernel; four figures were generated.
+- Four regression methods passed: legal-action IDs, terminal bootstrap, cap/repeatability and a deterministic small-goal task with invalid configuration cases.
+- Seed 2026: 10,000 episodes yielded 9,938 goals, 61 traps and one truncation. Repeat clean-kernel stdout metrics were identical.
+- The final visitation/reward figure was visually inspected. Schema validation and portable execution passed. Evidence: RL_before_unit.log, RL_unit_final.log, reinforcement-learning_repeat_execution.json.
+
+## 2026 Maintenance
+
+- Corrected boundary action indexing and next-state/terminal bootstrapping.
+- Added seed, step cap, finite-table/configuration checks and small-grid-safe reward generation.
+- Enabled saved inline plots and separated historical interpretations from measured execution counts.
+- Added four deterministic learning regressions, pinned dependencies and a portable notebook verifier.
+
+The later work is AI-assisted maintenance, separate from the original implementation.
+The exact original snapshot remains on `archive/handwritten-original`.
+See [AI_PROJECT_REVIEW.md](AI_PROJECT_REVIEW.md) for a technical review.
+
+## Known Limitations
+
+- The seed-specific counts are not a universal convergence guarantee.
+- The environment is deterministic tabular grid-world, not a simulator or real robot.
+- Grid rewards use [x,y] array indexing; heatmap rows correspond to x, rather than a physical Cartesian display.
