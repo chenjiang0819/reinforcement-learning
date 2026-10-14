@@ -1,12 +1,20 @@
 # Grid-World Q-Learning
 
+## Academic Context
+
+University: Dartmouth College, Thayer School of Engineering  
+Course: ENGS108 Applied Machine Learning, Assignment 5  
+Year: Fall 2022  
+Project type: individual
+
+
 ## Overview
 
 An original tabular Q-learning notebook for navigating a 15×15 grid with terminal goal and quicksand states.
 
 ## Original Context
 
-Chen Jiang’s original reinforcement-learning exercise, retaining the tabular Bellman update, four movement actions, epsilon-greedy selection and grid reward experiment. The preserved pre-maintenance snapshot is `26df28c57a9e736dc03fe3b0b7535ed150fae5fc`;
+Chen Jiang’s Dartmouth ENGS108 Assignment 5 reinforcement-learning exercise, retaining the tabular Bellman update, four movement actions, epsilon-greedy selection and grid reward experiment. The preserved pre-maintenance snapshot is `26df28c57a9e736dc03fe3b0b7535ed150fae5fc`;
 its most recent original commit is dated 2022-11-02. This date describes Git evidence,
 not necessarily the complete implementation period.
 
